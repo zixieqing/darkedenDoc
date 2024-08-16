@@ -1,0 +1,45 @@
+{
+  "completion": {
+      "autoRequire": true,
+      "autoRequireFunction": "require",
+      "autoRequireNamingConvention": "snakeCase",
+      "callSnippet": false,
+      "postfix": "@"
+  },
+  "diagnostics": {
+      "disable": [
+          "undefined-global","need-import"
+      ],
+      "globals": [
+      ],
+      "globalRegex": [
+      ],
+      "severity": {
+      }
+  },
+  "hint": {
+      "paramHint": true,
+      "indexHint": true,
+      "localHint": false,
+      "overrideHint": true
+  },
+  "runtime": {
+      "version": "Lua5.4",
+      "requireLikeFunction": [],
+      "frameworkVersions": []
+  },
+  "workspace": {
+      "ignoreDir": ["src/cocos", "win32/src/cocos", "win32/src/lib"],
+      "library": [],
+      "workspaceRoots": [
+      ],
+      "preloadFileSize": 12048000
+  },
+  "resource": {
+      "paths": [
+      ]
+  },
+  "codeLens":{
+      "enable": false
+  }
+}

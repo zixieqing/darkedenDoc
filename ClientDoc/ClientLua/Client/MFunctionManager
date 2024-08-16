@@ -1,0 +1,87 @@
+这段代码是 `MFunctionManager` 类的实现文件，主要用于管理和执行一组函数。以下是对代码的详细解析：
+
+### 主要功能
+
+- **函数管理**：提供对一组函数的初始化、释放、设置和执行功能。
+
+### 代码结构
+
+1. **包含的头文件**：
+   ```cpp
+   #include "Client_PCH.h"
+   #include "MFunctionManager.h"
+   ```
+   - 包含了预编译头文件和类定义的头文件。
+
+2. **构造函数与析构函数**：
+   ```cpp
+   MFunctionManager::MFunctionManager() {
+       m_nFunction = NULL;
+       m_pFunction = NULL;
+   }
+
+   MFunctionManager::~MFunctionManager() {
+       Release();
+   }
+   ```
+   - 构造函数初始化成员变量，析构函数调用 `Release()` 以释放资源。
+
+3. **初始化函数**：
+   ```cpp
+   void MFunctionManager::Init(int max) {
+       Release();
+
+       if (max > 0) {
+           m_nFunction = max;
+           m_pFunction = new FUNCTION_TYPE[max];
+
+           for (int i = 0; i < max; i++) {
+               m_pFunction[i] = NULL;
+           }
+       }
+   }
+   ```
+   - `Init` 方法分配内存并初始化函数指针数组。如果 `max` 大于零，则分配相应大小的内存并将所有指针初始化为 `NULL`。
+
+4. **释放资源**：
+   ```cpp
+   void MFunctionManager::Release() {
+       if (m_pFunction != NULL) {
+           delete[] m_pFunction;
+           m_pFunction = NULL;
+       }
+
+       m_nFunction = 0;
+   }
+   ```
+   - `Release` 方法释放分配的内存并重置成员变量。
+
+5. **执行函数**：
+   ```cpp
+   bool MFunctionManager::Execute(int id, void* pVoid) const {
+       if (id >= 0 && id < m_nFunction) {
+           if (m_pFunction[id] == NULL) {
+               return false;
+           } else {
+               (*m_pFunction[id])(pVoid);
+               return true;
+           }
+       }
+       return false;
+   }
+   ```
+   - `Execute` 方法根据传入的 ID 调用相应的函数。如果 ID 超出范围或对应的函数为空，返回 `false`。否则，调用该函数并返回 `true`。
+
+6. **设置函数**：
+   ```cpp
+   void MFunctionManager::SetFunction(int id, FUNCTION_TYPE function) {
+       if (id >= 0 && id < m_nFunction) {
+           m_pFunction[id] = function;
+       }
+   }
+   ```
+   - `SetFunction` 方法将指定 ID 的函数指针设置为传入的函数。
+
+### 总结
+
+`MFunctionManager` 类是一个简单而有效的函数管理器，能够动态分配和管理函数指针数组。它提供了初始化、释放、设置和执行函数的功能，适用于需要动态调用不同函数的场景，例如事件处理或回调管理。通过使用指针数组，能够灵活地管理多个函数，提高代码的可扩展性和维护性。
